@@ -3,6 +3,12 @@
 
 #include <iostream>
 
+void Initialise();
+void GetInput();
+void Update();
+void Render();
+void Shutdown();
+
 int main()
 {
     std::cout << "Welcome in my Game!\n";
