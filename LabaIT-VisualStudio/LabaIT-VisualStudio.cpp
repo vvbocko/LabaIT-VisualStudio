@@ -9,6 +9,24 @@ void Update();
 void Render();
 void Shutdown();
 
+
+void Initialise() {
+    std::cout << "Initialization...\n";
+}
+void GetInput() {
+    return;
+}
+void Update() {
+    return;
+}
+void Render() {
+    std::cout << "Rendering.\n";
+}
+void Shutdown() {
+    std::cout << "Shutdown.\n";
+}
+
+
 int main()
 {
     std::cout << "Welcome in my Game!\n";
