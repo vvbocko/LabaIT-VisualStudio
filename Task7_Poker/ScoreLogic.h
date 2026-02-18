@@ -12,5 +12,5 @@ private:
 
 public:
 	Rank checkHandRank(const Hand& hand);
-	int countScore(Rank rank);
+	//int countScore(Rank rank);
 };
