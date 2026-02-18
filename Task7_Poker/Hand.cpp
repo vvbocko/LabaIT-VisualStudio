@@ -1,27 +1,17 @@
 #include "Hand.h"
 #include <vector>
-#include <iostream>
-
-
 //Hand::Hand()
 //{
 //
 //}
 
-void Hand::addCard(const Card& card)
+void Hand::addCard(const Card& card, std::vector<Card>& playerCards)
 {
-    if (handCards.size() < 5)
+    if (playerCards.size() < 5)
     {
-        handCards.push_back(card);
+        playerCards.push_back(card);
     }
 }
-
-Card Hand::putBackCard(Card& card)
-{
-	handCards.push_back(card);
-	return card;
-}
-
 
 // Vector.push_back(6);					--> dodawanie na koncu vectora
 // Vector.pop_back();					--> usuwanie z konca vectora

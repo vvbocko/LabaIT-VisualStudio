@@ -2,17 +2,15 @@
 
 #include "Card.h"
 #include "Rank.h"
-#include <unordered_map>
-#include <iostream>
+#include <vector>
 
 class Hand 
 {
 public:
-	std::vector<Card> handCards;
+	std::vector<Card> humanCards;
+	std::vector<Card> botCards;
 
-	void addCard(const Card& card);
-	Card putBackCard(Card& card);
+	void addCard(const Card& card, std::vector<Card>& playerCards);
 
-	void clear() { handCards.clear(); }
-	const std::vector<Card>& GetCards() const { return handCards; }
+	const std::vector<Card>& getPlayerCards(std::vector<Card> playerCards) const { return playerCards; }
 };

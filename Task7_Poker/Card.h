@@ -13,8 +13,8 @@ private:
 public:
 	Card(CardSuit suit, CardType type);
 
-	CardSuit GetSuit() const { return suit; }
-	CardType GetType() const { return type; }
+	CardSuit getSuit() const { return suit; }
+	CardType getType() const { return type; }
 
 	std::string toString() const;
 };

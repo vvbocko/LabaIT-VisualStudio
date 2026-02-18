@@ -13,7 +13,7 @@ private:
 
 public:
 	ScoreLogic();
-	Rank checkHandRank(const Hand& hand);
+	Rank checkHandRank(const  std::vector<Card> playerCards);
 	std::string toString(Rank& rank) const;
 	//int countScore(Rank rank);
 };

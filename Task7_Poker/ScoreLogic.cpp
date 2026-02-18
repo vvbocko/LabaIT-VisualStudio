@@ -9,15 +9,15 @@ ScoreLogic::ScoreLogic()
 	//int score = 0;
 }
 
-Rank ScoreLogic::checkHandRank(const Hand& hand)
+Rank ScoreLogic::checkHandRank(const std::vector<Card> playerCards)
 {
     std::map <CardType, int> typeCounts;
     std::map <CardSuit, int> suitCounts;
 
-    for (const Card& card : hand.GetCards()) //go through every card in deck and increment int by caardType
+    for (const Card& card : playerCards) //go through every card in deck and increment int by caardType
     {
-        typeCounts[card.GetType()]++;
-        suitCounts[card.GetSuit()]++;
+        typeCounts[card.getType()]++;
+        suitCounts[card.getSuit()]++;
     }
 
     //the same

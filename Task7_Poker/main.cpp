@@ -1,4 +1,6 @@
 #include <windows.h>
+#include <map>
+#include "Card.h"
 #include "Deck.h"
 #include "Hand.h"
 #include "ScoreLogic.h"
@@ -12,25 +14,27 @@ ScoreLogic logic;
 void Initialise();
 void GetInput();
 void Update();
+void BotLogic();
 void Render();
 void ShutDown();
-void RefillHand();
+void RefillHand(std::vector<Card>& playerCards);
 
 
 int main() 
 {
     Initialise();
+    BotLogic();
     GetInput();
-    RefillHand();
     Render();
-
+    ShutDown();
 }
 
 
 void Initialise()
 {
     deck.shuffleDeck();
-    RefillHand();
+    RefillHand(hand.humanCards);
+    RefillHand(hand.botCards);
 }
 
 void GetInput()
@@ -53,7 +57,7 @@ void GetInput()
 
         if (choice >= 1 && choice <= 5)
         {
-            hand.handCards[choice - 1] = deck.GetCard();
+            hand.humanCards[choice - 1] = deck.GetCard();
             exchangedCount++;
             cout << "Card #" << choice << " exchanged!" << endl;
         }
@@ -63,6 +67,32 @@ void GetInput()
         }
     }
     cout << "\nExchanges ended" << endl;
+    RefillHand(hand.humanCards);
+}
+
+void BotLogic() 
+{
+    std::map<CardType, int> counts;
+
+    for (const Card& card : hand.getPlayerCards(hand.botCards)) 
+    {
+        counts[card.getType()]++;
+    }
+
+    std::vector<int> cardsToExchange;
+    for (int i = 0; i < hand.botCards.size(); ++i) 
+    {
+        if (counts[hand.botCards[i].getType()] == 1) 
+        {
+            cardsToExchange.push_back(i);
+        }
+    }
+
+    for (int num : cardsToExchange) 
+    {
+        hand.botCards[num] = deck.GetCard();
+    }
+
 }
 
 void Update() 
@@ -74,24 +104,41 @@ void Render()
 {
     cout << "Your cards:" << endl;
 
-    for (int i = 0; i < hand.handCards.size(); i++) 
+    for (int i = 0; i < hand.humanCards.size(); i++) 
     {
-        cout << hand.handCards[i].toString() << endl;
+        cout << hand.humanCards[i].toString() << endl;
     }
 
-    Rank rank = logic.checkHandRank(hand);
+    Rank rank = logic.checkHandRank(hand.humanCards);
     cout << "\nRank:" << logic.toString(rank) << endl;
 }
 
-void RefillHand()
+void RefillHand(std::vector<Card>& playerCards)
 {
-    while (hand.handCards.size() < 5)
+    while (playerCards.size() < 5)
     {
-        hand.handCards.push_back(deck.GetCard());
+        playerCards.push_back(deck.GetCard());
     }
 }
 
 void ShutDown()
 {
+    Rank humanRank = logic.checkHandRank(hand.humanCards);
+    Rank botRank = logic.checkHandRank(hand.botCards);
 
+    cout << "\nYour Rank:       " << logic.toString(humanRank);
+    cout << "\nOpponent's Rank: " << logic.toString(botRank) << endl;
+
+    if ((int)humanRank > (int)botRank) 
+    {
+        cout << "\nYOU WON! " << endl;
+
+    }
+    else if ((int)humanRank < (int)botRank) 
+    {
+        cout << "\nYOU LOST! " << endl;
+    }
+    else {
+        cout << "\nTIE! " << endl;
+    }
 }
