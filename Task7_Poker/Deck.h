@@ -11,6 +11,8 @@ private:
 	std::vector<Card> cardDeck;
 
 public:
+	Deck();
 	void shuffleDeck();
+	bool hasCards();
 	Card GetCard();
 };

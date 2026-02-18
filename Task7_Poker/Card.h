@@ -1,4 +1,6 @@
 #pragma once
+#include <ostream>
+#include <string>
 #include "CardType.h"
 #include "CardSuit.h"
 
@@ -13,4 +15,6 @@ public:
 
 	CardSuit GetSuit() const { return suit; }
 	CardType GetType() const { return type; }
+
+	std::string toString() const;
 };

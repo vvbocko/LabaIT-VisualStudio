@@ -1,66 +1,97 @@
 #include <windows.h>
+#include "Deck.h"
+#include "Hand.h"
+#include "ScoreLogic.h"
+
+using namespace std;
+
+Deck deck;
+Hand hand;
+ScoreLogic logic;
 
 void Initialise();
-void DrawCards();
 void GetInput();
 void Update();
 void Render();
 void ShutDown();
+void RefillHand();
 
 
 int main() 
 {
     Initialise();
-    DrawCards();
     GetInput();
+    RefillHand();
+    Render();
 
-    while (true) {
-        Update();
-        Render();
-        Sleep(500);
-    }
-    return 0;
-    ShutDown();
 }
 
 
 void Initialise()
 {
-    // Add 4 times all 13 cards to the pile
+    deck.shuffleDeck();
+    RefillHand();
 }
 
-void DrawCards()
+void GetInput()
 {
-    // DrawMaxFive()
-    // Use rand() to add cards to the deck of max 5 cards
-    // Sort those 5 cards
-    // Display them
-}
+    int choice = -1;
+    int exchangedCount = 0;
 
-void GetInput() 
-{
-    // Player writtes numbers 1-5 one by one (pop/append?) or writes 0 to end choosing phase
-    // ( check if the number is from 1-5 or is it 0 else error wrong input or you already got rid of this card)
-    // 
+    while (exchangedCount < 5)
+    {
+        Render();
+        cout << "\nExchange count: " << exchangedCount<<  "/5" << endl;
+        cout << "\nEnter card number to exchange (1-5)" << endl;
+        cout << "Enter 0 to finish exchanging ";
+        cin >> choice;
+
+        if (choice == 0)
+        {
+            break;
+        }
+
+        if (choice >= 1 && choice <= 5)
+        {
+            hand.handCards[choice - 1] = deck.GetCard();
+            exchangedCount++;
+            cout << "Card #" << choice << " exchanged!" << endl;
+        }
+        else
+        {
+            cout << "Wrong number" << endl;
+        }
+    }
+    cout << "\nExchanges ended" << endl;
 }
 
 void Update() 
 {
-    // DrawMaxFive()
-    // Use rand() to add cards to the deck of max 5 cards
-    // Sort those 5 cards
-    // Display them
 
-    // Count score from every deck
-    // Compare and choose winner
 }
 
 void Render() 
 {
+    cout << "Your cards:" << endl;
 
+    for (int i = 0; i < hand.handCards.size(); i++) 
+    {
+        cout << hand.handCards[i].toString() << endl;
+    }
+
+    Rank rank = logic.checkHandRank(hand);
+    cout << "\nRank:" << logic.toString(rank) << endl;
 }
 
-void ShutDown() 
+void RefillHand()
+{
+    while (hand.handCards.size() < 5)
+    {
+        hand.handCards.push_back(deck.GetCard());
+    }
+}
+
+void ShutDown()
 {
 
 }

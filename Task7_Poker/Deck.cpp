@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <iostream>
+#include <random>
 #include <ctime>
 #include <algorithm>
 
@@ -24,7 +25,8 @@ Deck::Deck()
 
 void Deck::shuffleDeck()
 {
-	int rng = rand();
+	random_device rd;
+	mt19937_64 rng(rd());
 	std::shuffle(cardDeck.begin(), cardDeck.end(), rng);
 }
 
@@ -33,6 +35,15 @@ Card Deck::GetCard()
 	Card card = cardDeck.back();
 	cardDeck.pop_back();
 	return card;
+}
+
+bool Deck::hasCards()
+{
+	if (cardDeck.size() < 5 && !cardDeck.empty())
+	{
+		return true;
+	}
+	else { return false; }
 }
 
 

@@ -6,7 +6,7 @@ using namespace std;
 
 ScoreLogic::ScoreLogic() 
 {
-	int score = 0;
+	//int score = 0;
 }
 
 Rank ScoreLogic::checkHandRank(const Hand& hand)
@@ -37,21 +37,18 @@ Rank ScoreLogic::checkHandRank(const Hand& hand)
     bool hasAce = false;
     bool straight = false;
  
-    for (const pair<const CardType, int>& element : typeCounts)
+    if (typeCounts.size() == 5) 
     {
-        if (typeCounts.size() == 5) 
-        {
-            int first = (int)typeCounts.begin()->first;
-            int last = (int)typeCounts.rbegin()->first;
+        int first = (int)typeCounts.begin()->first;
+        int last = (int)typeCounts.rbegin()->first;
 
-            if (last - first == 4) 
-            {
-                straight = true;
-            }
-            if (last == 14)
-            { 
-                hasAce = true; 
-            }
+        if (last - first == 4) 
+        {
+            straight = true;
+        }
+        if (last == 14)
+        { 
+            hasAce = true; 
         }
     }
     
@@ -107,4 +104,12 @@ Rank ScoreLogic::checkHandRank(const Hand& hand)
     { 
         return Rank::HighCard; 
     }
+}
+
+
+std::string ScoreLogic::toString(Rank& rank) const
+{
+    std::string ranks[] = { "HighCard", "OnePair", "TwoPair", "ThreeOfAKind", "Straight", "Flush", "FullHouse", "FourOfAKind", "StraightFlush", "RoyalFlush" };
+
+    return ranks[(int)rank];
 }
